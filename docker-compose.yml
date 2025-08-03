@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ittaconsulting_it-app
-    container_name: ittaconsulting_it-app
+    image: codeigniter4_app
+    container_name: codeigniter4_app
     restart: unless-stopped
     working_dir: /var/www
     volumes:
@@ -16,10 +16,10 @@ services:
 
   webserver:
     image: nginx:alpine
-    container_name: new_webserver
+    container_name: codeigniter4_webserver
     restart: unless-stopped
     ports:
-      - "8008:80"
+      - "8020:80"
     volumes:
       - ./:/var/www
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
