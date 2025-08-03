@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    libicu-dev \
     locales \
     zip \
     unzip \
@@ -13,7 +14,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install pdo_mysql mysqli \
+    && docker-php-ext-install intl pdo_mysql mysqli \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Set working directory
