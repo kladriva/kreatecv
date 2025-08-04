@@ -29,7 +29,7 @@ class Database extends Config
         'hostname'     => '84.247.187.217',
         'username'     => 'root',
         'password'     => 'Jesus',
-        'database'     => 'kladrivaacademie',
+        'database'     => 'cvdata',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
