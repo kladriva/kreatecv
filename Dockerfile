@@ -23,13 +23,13 @@ WORKDIR /var/www
 # Copy application with correct permissions
 COPY --chown=www-data:www-data . /var/www
 
-# Set permissions for writable and uploads
-RUN chown -R www-data:www-data writable && chmod -R 775 writable
+# Copy init permission script
+COPY init-perms.sh /usr/local/bin/init-perms.sh
+RUN chmod +x /usr/local/bin/init-perms.sh
 
 # Change current user
 USER www-data
 
-
-# Expose port 9000 and run php-fpm
+# Expose port 9000 and run php-fpm with permission fix
 EXPOSE 9000
-CMD ["php-fpm"]
+CMD ["/bin/sh", "-c", "/usr/local/bin/init-perms.sh && php-fpm"]
