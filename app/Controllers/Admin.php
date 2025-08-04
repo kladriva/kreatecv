@@ -15,7 +15,7 @@ class Admin extends BaseController
     {
         $crud = new GroceryCrud();
 
-        $crud->setTable('users');
+        $crud->setTable('user');
         $crud->setSubject('Utilisateur', 'Utilisateurs');
         $crud->columns(['username', 'email', 'created_at']);
         $crud->requiredFields(['username', 'email']);
