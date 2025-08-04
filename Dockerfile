@@ -20,16 +20,13 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /var/www
 
-# Copy application with correct permissions
+# Copy app code with proper ownership
 COPY --chown=www-data:www-data . /var/www
 
-# Copy init permission script
-COPY init-perms.sh /usr/local/bin/init-perms.sh
-RUN chmod +x /usr/local/bin/init-perms.sh
+# Copy and prepare entrypoint
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Change current user
-USER www-data
-
-# Expose port 9000 and run php-fpm with permission fix
+# Expose and set entrypoint
 EXPOSE 9000
-CMD ["/bin/sh", "-c", "/usr/local/bin/init-perms.sh && php-fpm"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

@@ -9,7 +9,6 @@ services:
     container_name: codeigniter4_app
     restart: unless-stopped
     working_dir: /var/www
-    command: ["/bin/sh", "-c", "/usr/local/bin/init-perms.sh && php-fpm"]
     volumes:
       - ./:/var/www
     networks:
