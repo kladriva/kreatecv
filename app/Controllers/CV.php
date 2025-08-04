@@ -6,6 +6,11 @@ use App\Models\CVModel;
 
 class CV extends BaseController
 {
+    public function index()
+{
+    return view('upload_cv');
+}
+
     public function upload()
     {
         helper(['form', 'url']);
