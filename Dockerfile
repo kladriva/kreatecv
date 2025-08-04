@@ -26,9 +26,12 @@ COPY --chown=www-data:www-data . /var/www
 # Set permissions for uploads
 RUN chmod -R 755 writable/uploads && chown -R www-data:www-data writable/uploads
 
+# Set permissions for writable
+RUN chown -R www-data:www-data writable && chmod -R 775 writable
 
 # Change current user
 USER www-data
+
 
 # Expose port 9000 and run php-fpm
 EXPOSE 9000
