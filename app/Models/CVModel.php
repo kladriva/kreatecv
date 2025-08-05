@@ -9,6 +9,15 @@ class CVModel extends Model
     protected $table      = 'cvs';
     protected $primaryKey = 'id';
 
-    protected $allowedFields = ['user_id', 'filename', 'filepath', 'created_at'];
+    // Ajoute ici les champs du formulaire !
+    protected $allowedFields = [
+        'user_id',
+        'username', // <-- Ajouté
+        'email',    // <-- Ajouté
+        'phone',    // <-- Ajouté
+        'filename',
+        'filepath',
+        'created_at'
+    ];
     public $timestamps = true;
 }

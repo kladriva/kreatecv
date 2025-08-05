@@ -7,35 +7,51 @@ use App\Models\CVModel;
 class CV extends BaseController
 {
     public function index()
-{
-    return view('upload_cv');
-}
+    {
+        return view('upload_cv');
+    }
 
     public function upload()
     {
         helper(['form', 'url']);
         $session = session();
 
-        if ($this->request->getMethod() === 'post') {
-            $file = $this->request->getFile('cv_file');
+        // 1. On récupère les champs du formulaire
+        $username = $this->request->getPost('username');
+        $email    = $this->request->getPost('email');
+        $phone    = $this->request->getPost('phone');
 
-            if ($file->isValid() && !$file->hasMoved()) {
-                $newName = $file->getRandomName();
-                $file->move(WRITEPATH . 'uploads/cvs', $newName);
-
-                $cvModel = new CVModel();
-                $cvModel->save([
-                    'user_id'  => 1, // Remplace par l’ID de l’utilisateur connecté
-                    'filename' => $file->getClientName(),
-                    'filepath' => 'uploads/cvs/' . $newName,
-                    'created_at' => date('Y-m-d H:i:s'),
-                ]);
-
-                $session->setFlashdata('success', 'CV envoyé avec succès !');
-            } else {
-                $session->setFlashdata('error', 'Erreur lors de l’envoi du CV.');
+        $file = $this->request->getFile('cv_file');
+        if ($file && $file->isValid()) {
+            $uploadPath = WRITEPATH . 'uploads/cvs';
+            if (!is_dir($uploadPath)) {
+                mkdir($uploadPath, 0777, true);
             }
+            $newName = $file->getRandomName();
+            if ($file->move($uploadPath, $newName)) {
+                $cvModel = new \App\Models\CVModel();
+
+                // 2. On ajoute les infos persos au tableau data
+                $data = [
+                    'user_id'   => 1, // adapte selon utilisateur connecté
+                    'username'  => $username,
+                    'email'     => $email,
+                    'phone'     => $phone,
+                    'filename'  => $file->getClientName(),
+                    'filepath'  => 'uploads/cvs/' . $newName,
+                    'created_at'=> date('Y-m-d H:i:s'),
+                ];
+                if ($cvModel->insert($data)) {
+                    $session->setFlashdata('success', 'CV et infos enregistrés avec succès !');
+                } else {
+                    $session->setFlashdata('error', 'Erreur lors de l’enregistrement en BDD.');
+                }
+            } else {
+                $session->setFlashdata('error', 'Erreur lors du déplacement du fichier.');
+            }
+        } else {
+            $session->setFlashdata('error', 'Erreur lors de l’upload du fichier.');
         }
-        return redirect()->back();
+        return redirect()->to('/cv');
     }
 }
