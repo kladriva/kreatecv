@@ -26,12 +26,12 @@ class Database extends Config
      */
     public array $default = [
         'DSN'          => '',
-        'hostname'     => '84.247.187.217',
-        //'hostname'     => 'localhost',
-        //'password'     => '',
+        //'hostname'     => '84.247.187.217',
+        'hostname'     => 'localhost',
+        'password'     => '',
         'username'     => 'root',
-        'password'     => 'Jesus',
-        'database'     => 'cvdata',
+        //'password'     => 'Jesus',
+        'database'     => 'kreatecv',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
         'pConnect'     => false,
